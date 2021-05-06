@@ -21,7 +21,7 @@ public class VaccineTemplateController {
 	@GetMapping("/SearchCenters")
 	public String showVaccineList(Model model) {
 		
-		List<Vaccine> al = vaccineService.getAllCenters();
+		List<Vaccine> al = vaccineService.getAllCentersReqFactory();
 		
 	    model.addAttribute("vaccines", al);
 	    return "VaccineTemplate";
