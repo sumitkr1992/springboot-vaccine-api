@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" th:href="@{webjars/bootstrap/4.2.1/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+<body>
+    </br>
+    <!-- <h1 style="text-align:center"> Vaccine Availability For 18+ in Delhi NCR </h1> -->
+    <h2 style="text-align:center"> Vaccine Availability For 18+ in Delhi NCR </h2>
+    </br></br>
+	<table id="customers">
+    <thead>
+        <tr>
+            <th> S.NO. </th>
+            <th> Vaccine </th>
+            <th> Available Cap </th>
+            <th> State Name </th>
+            <th> District Name </th>
+            <th> Center Name </th>
+            <th> Date </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="vaccine : ${vaccines}">
+            <td><span th:text="${vaccine.id}"></span></td>
+            <td><span th:text="${vaccine.v_name}"></span></td>
+            <td><span th:text="${vaccine.v_avlcap}"></span></td>
+            <td><span th:text="${vaccine.v_sname}"></span></td>
+            <td><span th:text="${vaccine.v_dname}"></span></td>
+            <td><span th:text="${vaccine.v_cname}"></span></td>
+            <td><span th:text="${vaccine.v_date}"></span></td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>
