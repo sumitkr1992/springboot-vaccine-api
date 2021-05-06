@@ -113,8 +113,10 @@ public class VaccineService {
 		for (String d_key : c_key) {
 
 			JSONObject obj = null;
-			String url = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id="
-					+ d_key + "&date=" + strDate;
+//			String url = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id="
+//					+ d_key + "&date=" + strDate;
+			
+			String url = "https://jsonplaceholder.typicode.com/posts/1";
 			
 			CloseableHttpClient httpClient = HttpClients.custom().setSSLHostnameVerifier(new NoopHostnameVerifier())
 					.build();
@@ -124,7 +126,7 @@ public class VaccineService {
 			RestTemplate restTemplateNew = new RestTemplate(requestFactory);
 			String json = restTemplateNew.getForObject(url, String.class);
 			
-            //System.out.println(json);
+            System.out.println(json);
 			
 			obj = new JSONObject(json);
 			JSONArray arr = obj.getJSONArray("centers");
