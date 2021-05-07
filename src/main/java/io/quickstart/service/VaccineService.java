@@ -36,14 +36,16 @@ public class VaccineService {
 			JSONObject obj = null;
 			HttpHeaders headers = new HttpHeaders();
 			headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-            headers.setBasicAuth("Basic c3VyYWowNzA4MTk5NTp4a2V5c2liLWUyNDI3MzA4NjcyOWFlMTg5MzkyOGExNmI5MDU1NGI5MTAxMDliZmJmNjJjNzQyOWY5ZjQyNzZhZmJjZmQwNjgtc2Y0M3ZhU25Ga1Uwd3RkOQ==");
-			headers.add("user-agent",
+            headers.add("user-agent",
 					"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.87 Safari/537.36");
+			
 //			headers.add("user-agent",
 //					"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
 //			
 			HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
-			String url = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id="
+//			String url = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id="
+//					+ d_key + "&date=" + strDate;
+			String url = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/calendarByDistrict?district_id="
 					+ d_key + "&date=" + strDate;
 			System.out.println(url);
 			String json = restTemplate.exchange(url, HttpMethod.GET, entity, String.class).getBody();
