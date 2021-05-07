@@ -36,7 +36,7 @@ public class VaccineService {
 			JSONObject obj = null;
 			HttpHeaders headers = new HttpHeaders();
 			headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-
+            headers.setBasicAuth("Basic c3VyYWowNzA4MTk5NTp4a2V5c2liLWUyNDI3MzA4NjcyOWFlMTg5MzkyOGExNmI5MDU1NGI5MTAxMDliZmJmNjJjNzQyOWY5ZjQyNzZhZmJjZmQwNjgtc2Y0M3ZhU25Ga1Uwd3RkOQ==");
 			headers.add("user-agent",
 					"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.87 Safari/537.36");
 //			headers.add("user-agent",
@@ -85,6 +85,8 @@ public class VaccineService {
 				}
 			}
 		}
+		
+		Collections.sort(al, (a, b) -> b.getV_avlcap() - a.getV_avlcap());
 
 		if (al.size() == 0) {
 			Vaccine v1 = new Vaccine();
@@ -113,7 +115,10 @@ public class VaccineService {
 		for (String d_key : c_key) {
 
 			JSONObject obj = null;
-			String url = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id="
+//			String url = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id="
+//					+ d_key + "&date=" + strDate;
+			
+			String url = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/calendarByDistrict?district_id="
 					+ d_key + "&date=" + strDate;
 			
 			//String url = "https://jsonplaceholder.typicode.com/posts/1";
@@ -164,6 +169,8 @@ public class VaccineService {
 				}
 			}
 		}
+		
+		Collections.sort(al, (a, b) -> b.getV_avlcap() - a.getV_avlcap());
 
 		if (al.size() == 0) {
 			Vaccine v1 = new Vaccine();

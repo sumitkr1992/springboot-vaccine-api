@@ -18,10 +18,19 @@ public class VaccineTemplateController {
 	@Autowired
 	VaccineService vaccineService;
 	
-	@GetMapping("/SearchCenters")
+	@GetMapping("/SearchCentersIn")
 	public String showVaccineList(Model model) {
 		
 		List<Vaccine> al = vaccineService.getAllCentersReqFactory();
+		
+	    model.addAttribute("vaccines", al);
+	    return "VaccineTemplate";
+	}
+	
+	@GetMapping("/SearchCentersOut")
+	public String showVaccineListNew(Model model) {
+		
+		List<Vaccine> al = vaccineService.getAllCenters();
 		
 	    model.addAttribute("vaccines", al);
 	    return "VaccineTemplate";
