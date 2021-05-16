@@ -27,15 +27,20 @@ public class VaccineService {
 	@Autowired
 	private EmailService service;
 
-	//Add your city/district key in property file
-	@Value("${server.districtKey}")
-	private String[] c_key ;
+	@Value("${server.districtKey18}")
+	private String[] c_key18;
 	
 	@Value("${server.publicurl}")
 	private String publicurl;
 	
 	@Value("${server.privateurl}")
 	private String privateurl;
+	
+	@Value("${server.privateurl}")
+	private String privatebypinurl;
+	
+	@Value("${server.subscription}")
+	private String subscription;
 	
 	public List<Vaccine> getAllCentersPrvAPI() {
 		List<Vaccine> al = new ArrayList<Vaccine>();
@@ -45,7 +50,7 @@ public class VaccineService {
 		String strDate = formatter.format(date);
 		
 		try {
-			for (String d_key : c_key) {
+			for (String d_key : c_key18) {
 				JSONObject obj = null;
 				HttpHeaders headers = new HttpHeaders();
 				headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
@@ -135,7 +140,7 @@ public class VaccineService {
 		String strDate = formatter.format(date);
 
 		try {
-			for (String d_key : c_key) {
+			for (String d_key : c_key18) {
 				JSONObject obj = null;
 				HttpHeaders headers = new HttpHeaders();
 				headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
@@ -225,7 +230,7 @@ public class VaccineService {
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 		String strDate = formatter.format(date);
 		try {
-			for (String d_key : c_key) {
+			for (String d_key : c_key18) {
 
 				JSONObject obj = null;
 				
@@ -313,6 +318,83 @@ public class VaccineService {
 		}
 
 		
+	}
+	
+	public Map<String, List<Vaccine>> getDistWiseSlots(int age_limit, String[] c_key) {
+		Map<String, List<Vaccine>> finalObj = new HashMap<String, List<Vaccine>>();
+		int count = 0;
+		Date date = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+		String strDate = formatter.format(date);
+		
+		try {
+			for (String d_key : c_key) {
+				//System.out.println(d_key);
+				List<Vaccine> al = new ArrayList<Vaccine>();
+				JSONObject obj = null;
+				String url = "";
+				HttpHeaders headers = new HttpHeaders();
+				headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+	            headers.add("user-agent",
+						"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.87 Safari/537.36");
+				HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+				
+				url = privateurl + d_key + "&date=" + strDate;
+				//System.out.println(url);
+				String json = "";
+				try {
+					json = restTemplate.exchange(url, HttpMethod.GET, entity, String.class).getBody();
+				}catch(Exception e) {
+					System.out.println(d_key);
+					e.printStackTrace();
+					continue;
+				}
+				
+			    
+				obj = new JSONObject(json);
+				JSONArray arr = obj.getJSONArray("centers");
+				for (int i = 0; i < arr.length(); i++) {
+					JSONObject centers = arr.getJSONObject(i);
+					int c_id = centers.getInt("center_id");
+					String c_name = centers.getString("name");
+					String s_name = centers.getString("state_name");
+					String district_name = centers.getString("district_name");
+
+					JSONArray sessions = centers.getJSONArray("sessions");
+					for (int j = 0; j < sessions.length(); j++) {
+						JSONObject e_centers = sessions.getJSONObject(j);
+						int min_age_limit = e_centers.getInt("min_age_limit");
+						int available_capacity = e_centers.getInt("available_capacity");
+
+						if (min_age_limit == age_limit && available_capacity >= 3) {
+							String vaccine = e_centers.getString("vaccine");
+							String v_date = e_centers.getString("date");
+							String value = s_name + ", " + district_name + ", " + c_name + ", " + v_date + ", "
+									+ available_capacity + ", " + vaccine;
+                            //System.out.println(d_key+", "+value);
+							Vaccine v1 = new Vaccine();
+							v1.setId(++count);
+							v1.setV_avlcap(available_capacity);
+							v1.setV_cname(c_name);
+							v1.setV_date(v_date);
+							v1.setV_dname(district_name);
+							v1.setV_name(vaccine);
+							v1.setV_sname(s_name);
+
+							al.add(v1);
+						}
+					}
+				}
+				
+				finalObj.put(d_key, al);
+			}
+			return finalObj;
+			
+		}catch(Exception ex) {
+			
+			ex.printStackTrace();
+			return finalObj;
+		}
 	}
 
 }

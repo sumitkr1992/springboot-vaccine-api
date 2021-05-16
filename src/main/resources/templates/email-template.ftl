@@ -12,7 +12,7 @@
 				<table width="600" border="0" cellspacing="0" cellpadding="0">
 					<tr>
 						<td align="center" valign="top" bgcolor="#d3be6c"
-							style="background-color: #ccccff; font-family: Arial, Helvetica, sans-serif; font-size: 13px; color: #000000; padding: 0px 15px 10px 15px;">
+							style="background-color: #66ccff; font-family: Arial, Helvetica, sans-serif; font-size: 13px; color: #000000; padding: 0px 15px 10px 15px;">
 							
 							<div style="font-size: 40px; color:#ffffff;">
 							<br>
@@ -20,12 +20,12 @@
 							</div>
 							
 							<div style="font-size: 24px; color: #ffffff;">
-								<br> List of Centres! <br><br>
+								<br> List of Centres For 18+ <br><br>
 							</div>
 							<div>
 							
 								<#list vaccines as vaccine>
-                                  <b> ${vaccine.v_avlcap} | ${vaccine.v_dname} | ${vaccine.v_date} | ${vaccine.v_cname}</b> <br>
+                                  <b>No. Of Slots : ${vaccine.v_avlcap} | ${vaccine.v_dname} | ${vaccine.v_date} | ${vaccine.v_cname}</b> <br>
                                 </#list>
                              
                                 <br>
